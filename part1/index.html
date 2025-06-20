@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dog Walking - Terrible UX</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+        body {
+            background: linear-gradient(90deg, red, yellow, lime, cyan, blue, magenta);
+            animation: flicker 1s infinite;
+            font-size: 7px;
+            font-family: "Papyrus", cursive;
+            color: #333;
+            overflow-x: scroll;
+        }
+
+        @keyframes flicker {
+            0% {
+                background-color: red;
+            }
+
+            25% {
+                background-color: lime;
+            }
+
+            50% {
+                background-color: yellow;
+            }
+
+            75% {
+                background-color: cyan;
+            }
+
+            100% {
+                background-color: magenta;
+            }
+        }
+
+        h1 {
+            font-size: 12px;
+            text-shadow: 2px 2px hotpink;
+            margin: 0;
+        }
+
+        .section {
+            border: 5px dashed #000;
+            margin: 15px;
+            padding: 5px;
+            background-color: #fff;
+        }
+
+        button {
+            font-size: 6px;
+            padding: 5px;
+            background-color: yellow;
+            color: red;
+            border: 2px solid blue;
+        }
+
+        img {
+            width: 150px;
+            height: auto;
+            border: 10px dotted green;
+            filter: hue-rotate(180deg);
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <h1>🐾 D0gWalking App - D0g 0f Th3 D@y 🐶</h1>
+
+        <div class="section">
+            <p>Click the 3 buttons below **in order** to see today's dog:</p>
+            <button @click="step1 = true" :disabled="step1">Step 1</button>
+            <button @click="step2 = true" :disabled="!step1 || step2">Step 2</button>
+            <button @click="loadDog" :disabled="!step2">Reveal Dog</button>
+        </div>
+
+        <div v-if="dogImage" class="section">
+            <img :src="dogImage" alt="dog">
+            <p>This is {{ dogName }}. Owner: Alice123.</p>
+        </div>
+
+        <div class="section">
+            <p><strong>About This App:</strong></p>
+            <p>Dog owners like alice123 can create walk requests!</p>
+            <p>Walkers must tap fast or miss chance! Ratings are totally random!</p>
+        </div>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+        createApp({
+            data() {
+                return {
+                    step1: false,
+                    step2: false,
+                    dogImage: '',
+                    dogName: 'Max'
+                };
+            },
+            methods: {
+                loadDog() {
+                    fetch('https://dog.ceo/api/breeds/image/random')
+                        .then(res => res.json())
+                        .then(data => {
+                            this.dogImage = data.message;
+                        });
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+
+</html>
