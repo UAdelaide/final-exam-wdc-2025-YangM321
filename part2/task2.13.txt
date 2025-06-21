@@ -1,0 +1,7 @@
+-- INSERT Users info
+
+INSERT INTO Users (username, email, password_hash, role) 
+VALUES
+('ownerJane', 'jane@example.com', 'hashedpassword123', 'owner'),
+('walkerMike', 'mike@example.com', 'hashedpassword456', 'walker'),
+('ownerBob', 'bob@example.com', 'hashedpassword789', 'owner');
